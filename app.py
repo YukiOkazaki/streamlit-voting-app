@@ -67,7 +67,7 @@ else:
             poll_id = str(uuid.uuid4())[:8]
             sheet.append_row([poll_id] + urls + [0, 0, 0, 0])
 
-            base_url = "https://your-username-your-app-name.streamlit.app"
+            base_url = "https://blue-archive-vote-app.streamlit.app"
             full_url = f"{base_url}?poll_id={poll_id}"
 
             st.success("投票ページが作成されました！")
