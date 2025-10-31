@@ -17,8 +17,8 @@ creds = Credentials.from_service_account_info(
 client = gspread.authorize(creds)
 sheet = client.open_by_key(SHEET_ID).sheet1
 
-# --- ページ設定 ---
-st.set_page_config(page_title="投票アプリ", page_icon="🗳️", layout="wide")
+# --- ページ設定（デフォルト中央表示） ---
+st.set_page_config(page_title="投票アプリ", page_icon="🗳️")
 
 # --- URLパラメータ取得 ---
 query_params = st.experimental_get_query_params()
@@ -77,7 +77,7 @@ if poll_id:
 
 # --- 新規作成ページ ---
 else:
-    st.title("🗳️ ブルアカ性癖食わず嫌い王 新しい投票を作成")
+    st.title("🗳️ ブルアカ性癖食わず嫌い王")
     urls = [st.text_input(f"画像 {i+1} のURL") for i in range(4)]
 
     if st.button("投票ページを作成"):
@@ -89,6 +89,7 @@ else:
             full_url = f"{base_url}?poll_id={poll_id}"
 
             st.success("投票ページが作成されました！")
-            st.markdown(f"[こちらをクリックして投票ページへ]({full_url})")
+            st.write("下のURLをコピーして友達に共有してください👇")
+            st.text_input("投票URL", full_url, key="copy_url")  # コピー用
         else:
             st.warning("4つすべての画像URLを入力してください。")
