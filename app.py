@@ -5,14 +5,14 @@ from google.oauth2.service_account import Credentials
 import uuid
 import plotly.express as px
 
-# --- Google Sheets 認証（Secretsから取得） ---
-SHEET_ID = st.secrets["spreadsheet_id"]
+# --- Google Sheets 認証 ---
+SHEET_ID = "15q6gB5RbBLVxubLiwpG_-IKVHRNdHcO8XLluGoDwctw"
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
 creds = Credentials.from_service_account_info(
-    st.secrets["google_service_account"],
-    scopes=[
-        "https://www.googleapis.com/auth/spreadsheets",
-        "https://www.googleapis.com/auth/drive"
-    ]
+    st.secrets["google_service_account"], scopes=SCOPES
 )
 client = gspread.authorize(creds)
 sheet = client.open_by_key(SHEET_ID).sheet1
@@ -79,7 +79,7 @@ if poll_id:
 
 # --- 新規作成ページ ---
 else:
-    st.title("🗳️ 新しい投票を作成")
+    st.title("🗳️ 食わず嫌い王決定戦")
 
     titles = []
     urls = []
