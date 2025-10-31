@@ -3,6 +3,7 @@ import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 import uuid
+import plotly.express as px
 
 # --- Google Sheets 認証 ---
 SHEET_ID = "15q6gB5RbBLVxubLiwpG_-IKVHRNdHcO8XLluGoDwctw"
@@ -51,15 +52,32 @@ if poll_id:
 
         st.write("---")
         st.subheader("📊 投票結果")
+
+        # Plotlyで棒グラフ表示
         df = pd.DataFrame({
             "画像": [f"候補 {i+1}" for i in range(4)],
             "投票数": votes
         })
-        st.bar_chart(df.set_index("画像"))
+        fig = px.bar(
+            df,
+            x="画像",
+            y="投票数",
+            text="投票数",
+            color="画像",
+            color_discrete_sequence=px.colors.qualitative.Pastel
+        )
+        fig.update_traces(textposition='outside')
+        fig.update_layout(
+            yaxis=dict(title="票数"),
+            xaxis=dict(title="候補"),
+            showlegend=False,
+            margin=dict(l=20, r=20, t=20, b=20)
+        )
+        st.plotly_chart(fig, use_container_width=True)
 
 # --- 新規作成ページ ---
 else:
-    st.title("🗳️ 新しい投票を作成")
+    st.title("🗳️ ブルアカ性癖食わず嫌い王 新しい投票を作成")
     urls = [st.text_input(f"画像 {i+1} のURL") for i in range(4)]
 
     if st.button("投票ページを作成"):
